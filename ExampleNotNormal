@@ -1,5 +1,5 @@
 // Example for K3 surface with non normal Weylgroup
-// It takes about 30 minutes to run
+// It takes about 20 minutes to run
 
 Q := Rationals();                   
 P3<x,y,z,w> := ProjectiveSpace(Q,3);
@@ -40,13 +40,13 @@ for i in [1..9] do
   Tr2[i] := list2[i] - 1 - 2^(2*i);
 end for;
 
-R<t>:=PolynomialRing(Rationals(),1);
+R<t>:=PolynomialRing(Rationals());
 lwp2 := FrobeniusTracesToWeilPolynomials(Tr2, 2, 2, 22:
         KnownFactor := (t-2)^3);
 pwp2 := [wp : wp in lwp2 | CheckWeilPolynomial(wp,2,1:
         SurfDeg := 4)];
 assert #pwp2 eq 1; //check if this is the only possible polynomial
-wp2 := R!(pwp2[1]);
+wp2 := Evaluate(pwp2[1],t);
 Bound2 := WeilPolynomialToRankBound(wp2,2);
 
 "Geometric Picard number over F2 equals";
@@ -133,7 +133,7 @@ lwp3 := FrobeniusTracesToWeilPolynomials(Tr3, 3, 2, 22:
 pwp3 := [wp : wp in lwp3 | CheckWeilPolynomial(wp,3,1:
         SurfDeg := 4)];
 assert #pwp3 eq 1; //check if this is the only possible polynomial
-wp3 := R!(pwp3[1]);
+wp3 := Evaluate(pwp3[1],t);
 Bound3 := WeilPolynomialToRankBound(wp3,3);
 
 "Geometric Picard number over F3 equals";
