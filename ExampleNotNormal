@@ -57,7 +57,7 @@ wp2;
 "ArtinTateFormula over F2 gives"; 
 ArtinTateFormula(wp2,2,1);
 
-// Need fieldextension because is not complete geometric
+// Need fieldextension because this gives 3
 wp4 := R!WeilPolynomialOverFieldExtension(wp2,2);
 
 "Weilpolynomial over F4 equals";
