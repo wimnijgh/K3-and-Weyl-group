@@ -1,0 +1,144 @@
+// Example for K3 surface with non normal Weylgroup
+// It takes about 30 minutes to run
+
+Q := Rationals();                   
+P3<x,y,z,w> := ProjectiveSpace(Q,3);
+h := x^2*y^2 - x*y^3 + 6*y^4 + x^3*z + x*y^2*z + x^2*z^2 + x*y*z^2 + y^2*z^2 + x*z^3
+    + z^4 + 10*x*y^2*w - 24*y^3*w + y^2*z*w + x*z^2*w + y*z^2*w + z^3*w +
+    14*x*y*w^2 - 18*y^2*w^2 + 15*x*w^3 - 18*y*w^3 + 16*z*w^3 - 24*w^4;
+f1 := x^2-x*y+6*y^2;
+f2 := z^2-z*w+6*w^2;
+f3 := y*z-x*w;
+
+X := Scheme(P3,h); // K3 surface
+L := Scheme(P3,[f1,f2,f3]); // two lines on X
+assert L subset X;
+assert IsIrreducible(L);
+
+"Surface is given by";
+X;
+"with two conjugate lines on this surface given by";
+L;
+
+// Calculate Picard number over F2:
+P3F2 := ProjectiveSpace(GF(2),3);
+X2:=Scheme(P3F2,h); 
+assert IsNonsingular(X2);
+
+//Counting points on extensions of F2:
+list2:=[];
+for k in [1..9] do
+  Fq := GF(2^k);
+  P3q <xq,yq,zq,wq> := ProjectiveSpace(Fq,3);
+  Xq := Scheme(P3q, h);
+  Append(~list2,#Points(Xq));
+end for;
+
+//Calculating WeilPolynomial
+Tr2 := [];
+for i in [1..9] do
+  Tr2[i] := list2[i] - 1 - 2^(2*i);
+end for;
+
+R<t>:=PolynomialRing(Rationals(),1);
+lwp2 := FrobeniusTracesToWeilPolynomials(Tr2, 2, 2, 22:
+        KnownFactor := (t-2)^3);
+pwp2 := [wp : wp in lwp2 | CheckWeilPolynomial(wp,2,1:
+        SurfDeg := 4)];
+assert #pwp2 eq 1; //check if this is the only possible polynomial
+wp2 := R!pwp2[1];
+Bound2 := WeilPolynomialToRankBound(wp2,2);
+
+"Geometric Picard number over F2 equals";
+Bound2;
+
+"Weilpolynomial over F2 equals";
+wp2; 
+"ArtinTateFormula over F2 gives"; 
+ArtinTateFormula(wp2,2,1);
+
+// Need fieldextension because is not complete geometric
+wp4 := R!WeilPolynomialOverFieldExtension(wp2,2);
+
+"Weilpolynomial over F4 equals";
+wp4; 
+"ArtinTateFormula over F4 gives"; 
+ArtinTateFormula(wp4,2^2,1);
+
+
+// Calculate Picard number over F3, similar as above:
+P3F3 := ProjectiveSpace(GF(3),3);
+X3 := Scheme(P3F3,h); 
+assert IsNonsingular(X3);
+
+list3:=[];
+
+// Point counting in two steps:
+// for small field naive point counting is used
+for k in [1..5] do
+  Fq := GF(3^k);
+  P3q <xq,yq,zq,wq> := ProjectiveSpace(Fq,3);
+  Xq := Scheme(P3q, h);
+  Append(~list3,#Points(Xq));
+end for;
+
+// From here on we use an elliptic fibering for the point counting:
+// This is faster then the naive point counting and uses less memory
+// for these bigger order fields
+
+for k in [6..9] do 
+  Fq := GF(3^k);
+  P3q <xq,yq,zq,wq> := ProjectiveSpace(Fq,3);
+  Xq := Scheme(P3q, h);
+  L1 := Scheme(P3q,[xq,zq]);
+  assert L1 subset Xq;
+
+  P2<u,v,w> := ProjectiveSpace(Fq,2);
+  Cubic := Scheme(P2,CoordinateRing(P2)!(Evaluate(h,[0,u,v,w])/v));
+  if #IrreducibleComponents(Cubic) eq 1 then
+    if Genus(Curve(Cubic)) eq 1 then
+      EC := EllipticCurve(Curve(Cubic));
+      count := #EC;
+    else
+      count := #Points(Cubic);
+    end if;
+  else
+    count := #Points(Cubic);
+  end if;
+
+  for t in Fq do
+    Cubic := Curve(P2,CoordinateRing(P2)!(Evaluate(h,[u,v,t*u,w])/u));
+    if #IrreducibleComponents(Cubic) eq 1 then
+      if Genus(Curve(Cubic)) eq 1 then
+        EC := EllipticCurve(Curve(Cubic));
+        count := count + #EC;
+      else
+        count := count + #Points(Cubic);
+      end if;
+    else
+      count := count + #Points(Cubic);
+    end if;
+  end for;
+
+  Append(~list3, count);
+end for;
+
+Tr3 := [];
+for i in [1..9] do
+  Tr3[i] := list3[i] - 1 - 3^(2*i);
+end for;
+
+lwp3 := FrobeniusTracesToWeilPolynomials(Tr3, 3, 2, 22:
+        KnownFactor := (t-3)^3);
+pwp3 := [wp : wp in lwp3 | CheckWeilPolynomial(wp,3,1:
+        SurfDeg := 4)];
+assert #pwp3 eq 1; //check if this is the only possible polynomial
+wp3 := R!pwp3[1];
+Bound3 := WeilPolynomialToRankBound(wp3,3);
+
+"Geometric Picard number over F3 equals";
+Bound3;
+"Weilpolynomial over F3 equals";
+wp3; 
+"ArtinTateFormula over F3 gives"; 
+ArtinTateFormula(wp3,3,1);
