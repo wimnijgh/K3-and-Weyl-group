@@ -46,7 +46,7 @@ lwp2 := FrobeniusTracesToWeilPolynomials(Tr2, 2, 2, 22:
 pwp2 := [wp : wp in lwp2 | CheckWeilPolynomial(wp,2,1:
         SurfDeg := 4)];
 assert #pwp2 eq 1; //check if this is the only possible polynomial
-wp2 := R!pwp2[1];
+wp2 := R!(pwp2[1]);
 Bound2 := WeilPolynomialToRankBound(wp2,2);
 
 "Geometric Picard number over F2 equals";
@@ -133,7 +133,7 @@ lwp3 := FrobeniusTracesToWeilPolynomials(Tr3, 3, 2, 22:
 pwp3 := [wp : wp in lwp3 | CheckWeilPolynomial(wp,3,1:
         SurfDeg := 4)];
 assert #pwp3 eq 1; //check if this is the only possible polynomial
-wp3 := R!pwp3[1];
+wp3 := R!(pwp3[1]);
 Bound3 := WeilPolynomialToRankBound(wp3,3);
 
 "Geometric Picard number over F3 equals";
