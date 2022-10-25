@@ -99,7 +99,7 @@ repeat
         count := count + #Points(Cubic);
       end if;
     end for;
-    list3[k] := #Points(Xq);
+    list3[k] := count;
     Tr3[k] := list3[k] - 1 - 3^(2*k);
   end for;
   lwp3 := FrobeniusTracesToWeilPolynomials(Tr3, 3, 2, 22:
@@ -111,8 +111,8 @@ repeat
   bound3 := WeilPolynomialToRankBound(wp3,3);
 until bound3 eq 4;
 
-h := 3*f2-2*f3;
 
+h := 3*f2-2*f3;
 
 f2;
 f3;
