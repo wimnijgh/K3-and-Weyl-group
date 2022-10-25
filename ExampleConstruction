@@ -12,15 +12,17 @@ LSC := LinearSystem(LS,L);
 L2 := Scheme(P3,[y,w]);
 L3 := Scheme(P3,[x,y]);
 
-B := [];
-B[1] := Sections(LinearSystem(LSC,L2));
-B[2] := Sections(LinearSystem(LSC,L3));
+B2 := Sections(LinearSystem(LSC,L2));
+B3 := Sections(LinearSystem(LSC,L3));
 
 F2 := GF(2);
 P3p2 := ProjectiveSpace(F2,3);
 repeat
   repeat
-    f2 := &+[Random([-1,0,1])*b : b in B[1]];
+    f2 := x^3*y - x^2*y^2 + 6*x*y^3 + x^2*y*z - x*y^2*z - y^3*z + y^2*z^2 - y*z^3 +
+    7*x*y^2*w + x*y*z*w - y^2*z*w - x*z^2*w - x^2*w^2 + 6*y^2*w^2 - x*z*w^2 -
+    y*z*w^2 - z^2*w^2 - 8*x*w^3 - 18*y*w^3 + z*w^3 - 6*w^4 
+    // f2 := &+[Random([-1,0,1])*b : b in B2];
     X := Scheme(P3p2,f2);
   until not IsSingular(X);
   list2:=[];
@@ -55,7 +57,7 @@ F3 := GF(3);
 P3p3 := ProjectiveSpace(F3,3);
 repeat
   repeat
-    f3 := &+[Random([-1,0,1])*b : b in B[2]];
+    f3 := &+[Random([-1,0,1])*b : b in B3];
     X := Scheme(P3p3,f3);
   until not IsSingular(X);
   list3:=[];
@@ -72,7 +74,7 @@ repeat
     P3q <xq,yq,zq,wq> := ProjectiveSpace(Fq,3);
     Xq := Scheme(P3q, f3);
     P2<u,v,w> := ProjectiveSpace(Fq,2);
-    Cubic := Scheme(P2,CoordinateRing(P2)!(Evaluate(h,[0,u,v,w])/v));
+    Cubic := Scheme(P2,CoordinateRing(P2)!(Evaluate(f3,[0,u,v,w])/v));
     if #IrreducibleComponents(Cubic) eq 1 then
       if Genus(Curve(Cubic)) eq 1 then
         EC := EllipticCurve(Curve(Cubic));
@@ -85,7 +87,7 @@ repeat
     end if;
 
     for s in Fq do
-      Cubic := Curve(P2,CoordinateRing(P2)!(Evaluate(h,[u,v,s*u,w])/u));
+      Cubic := Curve(P2,CoordinateRing(P2)!(Evaluate(f3,[u,v,s*u,w])/u));
       if #IrreducibleComponents(Cubic) eq 1 then
         if Genus(Curve(Cubic)) eq 1 then
           EC := EllipticCurve(Curve(Cubic));
@@ -118,11 +120,11 @@ h;
 
 list2;
 pwp2;
-Bound2;
+bound2;
 ArtinTateFormula(wp2,2,1);
 
 list3;
 pwp3;
-Bound3;
+bound3;
 ArtinTateFormula(wp3,3,1);
 
