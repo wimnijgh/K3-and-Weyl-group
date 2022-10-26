@@ -19,12 +19,9 @@ F2 := GF(2);
 P3p2 := ProjectiveSpace(F2,3);
 repeat
   repeat
-    f2 := x^3*y - x^2*y^2 + 6*x*y^3 + x^2*y*z - x*y^2*z - y^3*z + y^2*z^2 - y*z^3 +
-    7*x*y^2*w + x*y*z*w - y^2*z*w - x*z^2*w - x^2*w^2 + 6*y^2*w^2 - x*z*w^2 -
-    y*z*w^2 - z^2*w^2 - 8*x*w^3 - 18*y*w^3 + z*w^3 - 6*w^4;
-    // f2 := &+[Random([-1,0,1])*b : b in B2];
+    f2 := &+[Random([-1,0,1])*b : b in B2];
     X := Scheme(P3p2,f2);
-  until not IsSingular(X);
+  until IsNonSingular(X);
   list2:=[];
   Tr2:=[];
   for k in [1..9] do
