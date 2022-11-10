@@ -15,8 +15,10 @@ L3 := Scheme(P3,[x,y]);
 B2 := Sections(LinearSystem(LSC,L2));
 B3 := Sections(LinearSystem(LSC,L3));
 
+
 F2 := GF(2);
 P3p2 := ProjectiveSpace(F2,3);
+bound2 := 22;
 repeat
   repeat
     f2 := &+[Random([-1,0,1])*b : b in B2];
@@ -35,14 +37,16 @@ repeat
         KnownFactor := (t-2)^4);
   pwp2 := [wp : wp in lwp2 | CheckWeilPolynomial(wp,2,1:
         SurfDeg := 4)];
-  assert #pwp2 eq 2;
-  wp2 := pwp2[1];
-  bound2 := WeilPolynomialToRankBound(wp2,2);
+  if #pwp2 eq 1 then
+    wp2 := pwp2[1];
+    bound2 := WeilPolynomialToRankBound(wp2,2);
+  end if;
 until bound2 eq 4;
 
 
 F3 := GF(3);
 P3p3 := ProjectiveSpace(F3,3);
+bound3 := 22;
 repeat
   repeat
     f3 := &+[Random([-1,0,1])*b : b in B3];
@@ -95,9 +99,10 @@ repeat
   pwp3 := [wp : wp in lwp3 | CheckWeilPolynomial(wp,3,1:
         SurfDeg := 4)];
 
-  wp3 := pwp3[1];
-  assert #pwp3 eq 3;
-  bound3 := WeilPolynomialToRankBound(wp3,3);
+  if #pwp3 eq 1 then
+    wp3 := pwp3[1];
+    bound3 := WeilPolynomialToRankBound(wp3,3);
+  end if;
 until bound3 eq 4;
 
 
