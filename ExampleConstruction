@@ -32,19 +32,10 @@ repeat
     Tr2[k] := list2[k] - 1 - 2^(2*k);
   end for;
   lwp2 := FrobeniusTracesToWeilPolynomials(Tr2, 2, 2, 22:
-        KnownFactor := (t-2)^3);
+        KnownFactor := (t-2)^4);
   pwp2 := [wp : wp in lwp2 | CheckWeilPolynomial(wp,2,1:
         SurfDeg := 4)];
-  if #pwp2 ge 2 then
-    P3q <xq,yq,zq,wq> := ProjectiveSpace(GF(2^10),3);
-    Xq := Scheme(P3q, f2);
-    list2[10] := #Points(Xq);
-    Tr2[10] := list2[10] - 1 - 2^20;
-    lwp2 := FrobeniusTracesToWeilPolynomials(Tr2, 2, 2, 22:
-        KnownFactor := (t-2)^3);
-    pwp2 := [wp : wp in lwp2 | CheckWeilPolynomial(wp,2,1:
-        SurfDeg := 4)];
-  end if;
+  assert #pwp2 eq 2;
   wp2 := pwp2[1];
   bound2 := WeilPolynomialToRankBound(wp2,2);
 until bound2 eq 4;
@@ -100,11 +91,12 @@ repeat
     Tr3[k] := list3[k] - 1 - 3^(2*k);
   end for;
   lwp3 := FrobeniusTracesToWeilPolynomials(Tr3, 3, 2, 22:
-        KnownFactor := (t-3)^3);
+        KnownFactor := (t-3)^4);
   pwp3 := [wp : wp in lwp3 | CheckWeilPolynomial(wp,3,1:
         SurfDeg := 4)];
 
   wp3 := pwp3[1];
+  assert #pwp3 eq 3;
   bound3 := WeilPolynomialToRankBound(wp3,3);
 until bound3 eq 4;
 
