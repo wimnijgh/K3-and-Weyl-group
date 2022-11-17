@@ -11,6 +11,13 @@ f3 := y*z-x*w;
 q1 := y*z + 2*(-x^2 + z*w + 2*w^2) + 3*x*y + 12*y^2;
 q2 := 2*(x*z - 2*y*z) + 3*(y^2 - 7*y*w - w^2);
 q3 := 7*x*w - 7*y^2 - 10*y*w - z^2 + 17*z*w - 2*w^2;
+
+/* alternative:
+q1 := 3*x*y + y^2 + 2*x*z + 2*y*z + x*w + 3*y*w;
+q2 := -2*x^2 + x*y + y*z + 6*z^2 + 2*x*w + 7*y*w + 9*z*w;
+q3 := 2*x*y + 3*y^2 + x*z + z^2 + x*w + 2*y*w + w^2;
+*/
+
 h := q1*f1 + q2*f2 + q3*f3;
 
 X := Scheme(P3,h); // K3 surface
@@ -57,8 +64,8 @@ for i in [1..8] do
 end for;
 wp2 := (t-2)^4*(t^18 + &+[coef2[i]*t^(18-i) : i in [1..17]] + 2^18);
 Bound2 := WeilPolynomialToRankBound(wp2,2);
-
 wp2t := Evaluate(wp2,2*t)/2^22;
+
 "Factorization of the Weilpolynomial over F2 equals";
 Factorization(wp2t);
 
