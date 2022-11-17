@@ -88,3 +88,8 @@ repeat
 until bound3 eq 4;
 
 pwp3;
+
+
+// q1 := 3*x*y + y^2 + 2*x*z + 2*y*z + x*w + 3*y*w;
+// q2 := -2*x^2 + x*y + y*z + 6*z^2 + 2*x*w + 7*y*w + 9*z*w;
+// q3 := 2*x*y + 3*y^2 + x*z + z^2 + x*w + 2*y*w + w^2;
