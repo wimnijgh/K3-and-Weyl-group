@@ -13,7 +13,10 @@ L2 := Scheme(PR2,[y,w]);
 PR3 := ProjectiveSpace(GF(3),3);
 L3 := Scheme(PR3,[x,y]);
 
+bound2 := 22;
+
 repeat
+
   repeat
     pq1 := 2*Random(LS2)+y*Random(LS1)+w*Random(LS1);
     pq2 := 3*w*Random(LS1)+y*Random(LS1);
@@ -21,11 +24,9 @@ repeat
     h := pq1*f1+pq2*f2+pq3*f3;
     X := Scheme(P3,h);
     X2 := Scheme(PR2,h);
-    X3 := Scheme(PR3,h);
   until IsNonsingular(X2) and IsNonsingular(X);
 
   assert L2 subset X2;
-  assert L3 subset X3;
   
   list2:=[];
   Tr2:=[];
@@ -42,19 +43,10 @@ repeat
   pwp2 := [wp : wp in lwp2 | CheckWeilPolynomial(wp,2,1:
         SurfDeg := 4)];
   
-  if #pwp2 ge 2 then
-    P3q <xq,yq,zq,wq> := ProjectiveSpace(GF(2^10),3);
-    Xq := Scheme(P3q, h);
-    list2[10] := #Points(Xq);
-    Tr2[10] := list2[10] - 1 - 2^20;
-    lwp2 := FrobeniusTracesToWeilPolynomials(Tr2, 2, 2, 22:
-        KnownFactor := (t-2)^4);
-    pwp2 := [wp : wp in lwp2 | CheckWeilPolynomial(wp,2,1:
-        SurfDeg := 4)];
+  if #pwp2 eq 1 then
+    wp2 := pwp2[1];
+    bound2 := WeilPolynomialToRankBound(wp2,2);
   end if;
-  
-  wp2 := pwp2[1];
-  bound2 := WeilPolynomialToRankBound(wp2,2);
 
 until bound2 eq 4;
 
@@ -127,9 +119,25 @@ repeat
   end if;
 until bound3 eq 4;
 
-
+"Defining polynomials q1,q2,q3 are";
 <q1,q2,q3>;
+"Number of Rational Points over F2 and extensions";
 list2;
+"Number of Rational Points over F3 and extensions";
 list3;
+
+
+/* output:
+
+Defining polynomials q1,q2,q3 are
+<3*x*y + y^2 + 2*x*z + 2*y*z + x*w + 3*y*w, -2*x^2 + x*y + y*z + 6*z^2 + 2*x*w +
+    7*y*w + 9*z*w, 2*x*y + 3*y^2 + x*z + z^2 + x*w + 2*y*w + w^2>
+Number of Rational Points over F2 and extensions
+[ 9, 33, 105, 257, 1249, 4161, 17089, 65537, 264705 ]
+Number of Rational Points over F3 and extensions
+[ 21, 95, 819, 6983, 59406, 534179, 4804401, 43025999, 387536184 ]
+
+Total time: 128853.009 seconds, Total memory usage: 2742.69MB
+*/
 
 
