@@ -74,8 +74,6 @@ repeat
   assert L2 subset X2;
   assert L3 subset X3;
 
-  print(<q1,q2,q3>);
-
   list3:=[];
   Tr3:=[];
   for k in [1..5] do
