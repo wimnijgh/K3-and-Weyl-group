@@ -1,0 +1,151 @@
+
+Q := Rationals();                   
+P3<x,y,z,w> := ProjectiveSpace(Q,3);
+R<t>:=PolynomialRing(Rationals());
+
+f1 := x^2-x*y+6*y^2;
+f2 := z^2-z*w+6*w^2;
+f3 := y*z-x*w;
+
+q1 := 3*x*y + y^2 + 2*x*z + 2*y*z + x*w + 3*y*w;
+q2 := -2*x^2 + x*y + y*z + 6*z^2 + 2*x*w + y*w + 3*z*w;
+q3 := 2*x*y + 3*y^2 + x*z + z^2 + x*w + 2*y*w + w^2;
+
+h := q1*f1 + q2*f2 + q3*f3;
+
+X := Scheme(P3,h); // K3 surface
+L := Scheme(P3,[f1,f2,f3]); // two lines on X
+assert L subset X;
+assert IsIrreducible(L);
+
+"Surface is given by";
+X;
+"with two conjugate lines on this surface given by";
+L;
+
+// Calculate Picard number over F2:
+P3F2 := ProjectiveSpace(GF(2),3);
+X2:=Scheme(P3F2,h); 
+assert IsNonsingular(X2);
+
+//Counting points on extensions of F2:
+list2:=[];
+for k in [1..9] do
+  Fq := GF(2^k);
+  P3q <xq,yq,zq,wq> := ProjectiveSpace(Fq,3);
+  Xq := Scheme(P3q, h);
+  Append(~list2,#Points(Xq));
+end for;
+
+//Calculating WeilPolynomial
+Tr2 := [];
+for i in [1..9] do
+  Tr2[i] := list2[i] - 1 - 2^(2*i)-4*2^i;
+end for;
+
+coef2 := [-Tr2[1]];
+for i in [1..8] do
+  sum := 0;
+  for j in [1..i] do
+    sum := sum + Tr2[i+1-j]*coef2[j];
+  end for;
+  Append(~coef2,-Integers()!((Tr2[i+1]+sum)/(i+1)));
+end for;
+
+for i in [1..8] do
+  Append(~coef2,coef2[9-i]*2^(2*i));
+end for;
+wp2 := (t-2)^4*(t^18 + &+[coef2[i]*t^(18-i) : i in [1..17]] + 2^18);
+Bound2 := WeilPolynomialToRankBound(wp2,2);
+wp2t := Evaluate(wp2,2*t)/2^22;
+
+"Factorization of the Weilpolynomial over F2 equals";
+Factorization(wp2t);
+
+"Geometric Picard number over F2 equals";
+Bound2;
+
+
+// Calculate Picard number over F3, similar as above:
+P3F3 := ProjectiveSpace(GF(3),3);
+X3 := Scheme(P3F3,h); 
+assert IsNonsingular(X3);
+
+list3:=[];
+
+// Point counting in two steps:
+// for small field naive point counting is used
+for k in [1..5] do
+  Fq := GF(3^k);
+  P3q <xq,yq,zq,wq> := ProjectiveSpace(Fq,3);
+  Xq := Scheme(P3q, h);
+  Append(~list3,#Points(Xq));
+end for;
+
+// From here on we use an elliptic fibering for the point counting:
+// This is faster then the naive point counting for these bigger order fields
+// One can also check this by adjusting the above function from [1..9], 
+// but this naive point counting will take more time and uses more memory.
+
+for k in [6..9] do 
+  Fq := GF(3^k);
+  P3q <xq,yq,zq,wq> := ProjectiveSpace(Fq,3);
+  Xq := Scheme(P3q, h);
+  L1 := Scheme(P3q,[xq,zq]);
+  assert L1 subset Xq;
+
+  P2<u,v,w> := ProjectiveSpace(Fq,2);
+  Cubic := Scheme(P2,CoordinateRing(P2)!(Evaluate(h,[0,u,v,w])/v));
+  if #IrreducibleComponents(Cubic) eq 1 then
+    if Genus(Curve(Cubic)) eq 1 then
+      EC := EllipticCurve(Curve(Cubic));
+      count := #EC;
+    else
+      count := #Points(Cubic);
+    end if;
+  else
+    count := #Points(Cubic);
+  end if;
+
+  for t in Fq do
+    Cubic := Curve(P2,CoordinateRing(P2)!(Evaluate(h,[u,v,t*u,w])/u));
+    if #IrreducibleComponents(Cubic) eq 1 then
+      if Genus(Curve(Cubic)) eq 1 then
+        EC := EllipticCurve(Curve(Cubic));
+        count := count + #EC;
+      else
+        count := count + #Points(Cubic);
+      end if;
+    else
+      count := count + #Points(Cubic);
+    end if;
+  end for;
+
+  Append(~list3, count);
+end for;
+
+Tr3 := [];
+for i in [1..9] do
+  Tr3[i] := list3[i] - 1 - 3^(2*i)-4*3^i;
+end for;
+
+coef3 := [-Tr3[1]];
+for i in [1..8] do
+  sum := 0;
+  for j in [1..i] do
+    sum := sum + Tr3[i+1-j]*coef3[j];
+  end for;
+  Append(~coef3,-Integers()!((Tr3[i+1]+sum)/(i+1)));
+end for;
+
+for i in [1..8] do
+  Append(~coef3,coef3[9-i]*3^(2*i));
+end for;
+wp3 := (t-3)^4*(t^18 + &+[coef3[i]*t^(18-i) : i in [1..17]] + 3^18);
+Bound3 := WeilPolynomialToRankBound(wp3,3);
+wp3t := Evaluate(wp3,3*t)/3^22;
+
+"Factorization of the Weilpolynomial over F3 equals";
+Factorization(wp3t); 
+"Geometric Picard number over F3 equals";
+Bound3;
