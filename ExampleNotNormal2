@@ -149,3 +149,13 @@ wp3t := Evaluate(wp3,3*t)/3^22;
 Factorization(wp3t); 
 "Geometric Picard number over F3 equals";
 Bound3;
+
+for i in [2..100] do
+  if EulerPhi(i) le 18 then
+    F := CyclotomicField(i);
+    z := RootOfUnity(i,F);
+    assert Evaluate(wp2t,z) ne 0;
+    assert Evaluate(wp3t,z) ne 0;
+  end if;
+end for;
+
