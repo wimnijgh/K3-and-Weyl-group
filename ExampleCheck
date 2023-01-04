@@ -1,5 +1,5 @@
 // Here we double check the properties of the
-// example we found in ConstructionExample
+// example we found in Construction
 
 
 Q := Rationals();                   
