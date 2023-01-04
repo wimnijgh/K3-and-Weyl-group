@@ -1,3 +1,6 @@
+// Here we double check the properties of the
+// example we found in ConstructionExample
+
 
 Q := Rationals();                   
 P3<x,y,z,w> := ProjectiveSpace(Q,3);
