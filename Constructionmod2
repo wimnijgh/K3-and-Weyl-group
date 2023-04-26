@@ -55,12 +55,13 @@ list2;
 
 
 /* Example output:
-(N.b. this is a different output then the one used in the article)
 
 Defining polynomials q1,q2,q3 mod 2 are
 <x*y + y*z + x*w + w^2, x*w + z*w, x*y + y^2 + x*z + z*w + w^2>
 Number of Rational Points over F2 and extensions
 [ 9, 33, 105, 257, 1249, 4161, 17089, 65537, 264705 ]
+
+(N.b. this is a different output then the one used in the article)
 
 */
 
