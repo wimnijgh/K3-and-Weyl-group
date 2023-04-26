@@ -1,17 +1,16 @@
 
 Q := Rationals();
 R<t>:=PolynomialRing(Q);
-P3<x,y,z,w> := ProjectiveSpace(Q,3);
-f1 := x^2-x*y+6*y^2;
-f2 := z^2-z*w+6*w^2;
-f3 := y*z-x*w;
+
+P3<x,y,z,w> := ProjectiveSpace(GF(2),3);
+L2 := Scheme(P3,[x,y]);
+
 LS2 := LinearSystem(P3,2);
 LS1 := LinearSystem(P3,1);
 
-PR2 := ProjectiveSpace(GF(2),3);
-L2 := Scheme(PR2,[y,w]);
-PR3 := ProjectiveSpace(GF(3),3);
-L3 := Scheme(PR3,[x,y]);
+f1 := x^2-x*y;
+f2 := z^2-z*w;
+f3 := y*z-x*w;
 
 bound2 := 22;
 
