@@ -1,0 +1,83 @@
+Q := Rationals();
+R<t>:=PolynomialRing(Q);
+
+P3<x,y,z,w> := ProjectiveSpace(GF(3),3);
+L3 := Scheme(PR3,[x,y]);
+
+LS2 := LinearSystem(P3,2);
+LS1 := LinearSystem(P3,1);
+f1 := x^2-x*y;
+f2 := z^2-z*w;
+f3 := y*z-x*w;
+
+
+bound3 := 22;
+
+repeat
+  repeat
+    q1 := Random(LS2)+Random(LS2);
+    q2 := x*Random(LS1)+y*Random(LS1);
+    q3 := Random(LS2)+Random(LS2);
+    h := q1*f1+q2*f2+q3*f3;
+    X3 := Scheme(PR3,h);
+  until IsNonsingular(X3);
+
+  assert L3 subset X3;
+
+  list3:=[];
+  Tr3:=[];
+  for k in [1..5] do
+    Fq := GF(3^k);
+    P3q <xq,yq,zq,wq> := ProjectiveSpace(Fq,3);
+    Xq := Scheme(P3q, h);
+    list3[k] := #Points(Xq);
+    Tr3[k] := list3[k] - 1 - 3^(2*k);
+  end for;
+  for k in [6..9] do
+    Fq := GF(3^k);
+    P3q <xq,yq,zq,wq> := ProjectiveSpace(Fq,3);
+    Xq := Scheme(P3q, h);
+    P2<u,v,w> := ProjectiveSpace(Fq,2);
+    Cubic := Scheme(P2,CoordinateRing(P2)!(Evaluate(h,[0,u,v,w])/v));
+    if #IrreducibleComponents(Cubic) eq 1 then
+      if Genus(Curve(Cubic)) eq 1 then
+        EC := EllipticCurve(Curve(Cubic));
+        count := #EC;
+      else
+        count := #Points(Cubic);
+      end if;
+    else
+      count := #Points(Cubic);
+    end if;
+
+    for s in Fq do
+      Cubic := Curve(P2,CoordinateRing(P2)!(Evaluate(h,[u,v,s*u,w])/u));
+      if #IrreducibleComponents(Cubic) eq 1 then
+        if Genus(Curve(Cubic)) eq 1 then
+          EC := EllipticCurve(Curve(Cubic));
+          count := count + #EC;
+        else
+          count := count + #Points(Cubic);
+        end if;
+      else
+        count := count + #Points(Cubic);
+      end if;
+    end for;
+    list3[k] := count;
+    Tr3[k] := list3[k] - 1 - 3^(2*k);
+  end for;
+  lwp3 := FrobeniusTracesToWeilPolynomials(Tr3, 3, 2, 22:
+        KnownFactor := (t-3)^4);
+  pwp3 := [wp : wp in lwp3 | CheckWeilPolynomial(wp,3,1:
+        SurfDeg := 4)];
+  
+  if #pwp3 eq 1 then
+    wp3 := pwp3[1];
+    bound3 := WeilPolynomialToRankBound(wp3,3);
+  end if;
+until bound3 eq 4;
+
+"Defining polynomials q1,q2,q3 mod 3 are";
+<q1,q2,q3>;
+"Number of Rational Points over F3 and extensions";
+list3;
