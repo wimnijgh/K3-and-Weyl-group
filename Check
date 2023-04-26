@@ -64,6 +64,9 @@ wp2 := (t-2)^4*(t^18 + &+[coef2[i]*t^(18-i) : i in [1..17]] + 2^18);
 Bound2 := WeilPolynomialToRankBound(wp2,2);
 wp2t := Evaluate(wp2,2*t)/2^22;
 
+"Number of Rational Points over F2 and extensions";
+list2;
+
 "Factorization of the Weilpolynomial over F2 equals";
 Factorization(wp2t);
 
@@ -151,8 +154,13 @@ wp3 := (t-3)^4*(t^18 + &+[coef3[i]*t^(18-i) : i in [1..17]] + 3^18);
 Bound3 := WeilPolynomialToRankBound(wp3,3);
 wp3t := Evaluate(wp3,3*t)/3^22;
 
+
+"Number of Rational Points over F3 and extensions";
+list3;
+
 "Factorization of the Weilpolynomial over F3 equals";
 Factorization(wp3t); 
+
 "Geometric Picard number over F3 equals";
 Bound3;
 
@@ -178,6 +186,8 @@ x^2 - x*y + 6*y^2,
 z^2 - z*w + 6*w^2,
 y*z - x*w
 
+Number of Rational Points over F2 and extensions
+[ 9, 33, 105, 257, 1249, 4161, 17089, 65537, 264705 ]
 Factorization of the Weilpolynomial over F2 equals
 [
     <t - 1, 4>,
@@ -187,6 +197,8 @@ Factorization of the Weilpolynomial over F2 equals
 Geometric Picard number over F2 equals
 4
 
+Number of Rational Points over F3 and extensions
+[ 21, 95, 819, 6983, 59406, 534179, 4804401, 43025999, 387536184 ]
 Factorization of the Weilpolynomial over F3 equals
 [
     <t - 1, 4>,
