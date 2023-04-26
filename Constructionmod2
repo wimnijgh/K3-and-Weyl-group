@@ -1,0 +1,63 @@
+
+Q := Rationals();
+R<t>:=PolynomialRing(Q);
+P3<x,y,z,w> := ProjectiveSpace(Q,3);
+f1 := x^2-x*y+6*y^2;
+f2 := z^2-z*w+6*w^2;
+f3 := y*z-x*w;
+LS2 := LinearSystem(P3,2);
+LS1 := LinearSystem(P3,1);
+
+PR2 := ProjectiveSpace(GF(2),3);
+L2 := Scheme(PR2,[y,w]);
+PR3 := ProjectiveSpace(GF(3),3);
+L3 := Scheme(PR3,[x,y]);
+
+bound2 := 22;
+
+repeat
+
+  repeat
+    pq1 := y*Random(LS1)+w*Random(LS1);
+    pq2 := w*Random(LS1)+y*Random(LS1);
+    pq3 := Random(LS2)+Random(LS2);
+    h := pq1*f1+pq2*f2+pq3*f3;
+    X := Scheme(P3,h);
+    X2 := Scheme(PR2,h);
+  until IsNonsingular(X2);
+
+  assert L2 subset X2;
+  
+  list2:=[];
+  Tr2:=[];
+  for k in [1..9] do
+    Fq := GF(2^k);
+    P3q <xq,yq,zq,wq> := ProjectiveSpace(Fq,3);
+    Xq := Scheme(P3q, h);
+    list2[k]:= #Points(Xq);
+    Tr2[k] := list2[k] - 1 - 2^(2*k);
+  end for;
+  
+  lwp2 := FrobeniusTracesToWeilPolynomials(Tr2, 2, 2, 22:
+        KnownFactor := (t-2)^4);
+  pwp2 := [wp : wp in lwp2 | CheckWeilPolynomial(wp,2,1:
+        SurfDeg := 4)];
+  
+  if #pwp2 eq 1 then
+    wp2 := pwp2[1];
+    bound2 := WeilPolynomialToRankBound(wp2,2);
+  end if;
+
+until bound2 eq 4;
+
+"Defining polynomials q1,q2,q3 mod 2 are";
+<q1,q2,q3>;
+"Number of Rational Points over F2 and extensions";
+list2;
+
+
+/* Example output:
+
+*/
+
+
