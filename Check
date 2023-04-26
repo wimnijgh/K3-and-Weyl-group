@@ -20,7 +20,7 @@ h := q1*f1 + q2*f2 + q3*f3;
 
 X := Scheme(P3,h); // K3 surface
 C := Scheme(P3,[f1,f2,f3]); // two lines on X
-assert L subset X;
+assert C subset X;
 assert IsIrreducible(C);
 
 "Surface is given by";
