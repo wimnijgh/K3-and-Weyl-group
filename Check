@@ -1,8 +1,7 @@
 /*  
-Here we double check the properties of the example 
-we found in Construction as mentioned in the article.
+Here we double the properties of the example we found.
 Note that in contrary to the article we lifted 
-the surface and check the properties of this surface.
+to a surface and check the properties of this surface.
 */
 
 Q := Rationals();                   
@@ -20,14 +19,14 @@ q3 := x*z + x*w + z^2 + w^2 + 3*y^2 + 2*x*y + 2*y*w;
 h := q1*f1 + q2*f2 + q3*f3;
 
 X := Scheme(P3,h); // K3 surface
-L := Scheme(P3,[f1,f2,f3]); // two lines on X
+C := Scheme(P3,[f1,f2,f3]); // two lines on X
 assert L subset X;
-assert IsIrreducible(L);
+assert IsIrreducible(C);
 
 "Surface is given by";
 X;
 "with two conjugate lines on this surface given by";
-L;
+C;
 
 // Calculate Picard number over F2:
 P3F2 := ProjectiveSpace(GF(2),3);
@@ -168,6 +167,16 @@ end for;
 
 
 /* Output:
+Scheme over Rational Field defined by
+3*x^3*y - 2*x^2*y^2 + 17*x*y^3 + 6*y^4 + 2*x^3*z + 12*x*y^2*z + 15*y^3*z - 2*x^2*z^2 + 
+    2*x*y*z^2 + 2*y*z^3 + x^3*w + 18*y^3*w + x^2*z*w + 2*y^2*z*w + x*z^2*w + 3*z^3*w - 
+    13*x^2*w^2 + 4*x*y*w^2 - 2*x*z*w^2 + 6*y*z*w^2 - 3*z^2*w^2 + 11*x*w^3 + 6*y*w^3 + 
+    18*z*w^3
+with two conjugate lines on this surface given by
+Scheme over Rational Field defined by
+x^2 - x*y + 6*y^2,
+z^2 - z*w + 6*w^2,
+y*z - x*w
 
 Factorization of the Weilpolynomial over F2 equals
 [
@@ -177,6 +186,7 @@ Factorization of the Weilpolynomial over F2 equals
 ]
 Geometric Picard number over F2 equals
 4
+
 Factorization of the Weilpolynomial over F3 equals
 [
     <t - 1, 4>,
