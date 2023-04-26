@@ -94,7 +94,7 @@ end for;
 // This is faster then the naive point counting for these bigger order fields
 // One can also check this by adjusting the above function from [1..9], 
 // but this naive point counting will take more time and uses more memory.
-// This still takes a lot of time: ±30 minutes
+// This still takes a lot of time: ±1h
 
 for k in [6..9] do 
   Fq := GF(3^k);
