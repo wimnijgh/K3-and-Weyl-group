@@ -2,14 +2,14 @@ Q := Rationals();
 R<t>:=PolynomialRing(Q);
 
 P3<x,y,z,w> := ProjectiveSpace(GF(3),3);
-L3 := Scheme(PR3,[x,y]);
+L3 := Scheme(P3,[x,y]);
 
 LS2 := LinearSystem(P3,2);
 LS1 := LinearSystem(P3,1);
+
 f1 := x^2-x*y;
 f2 := z^2-z*w;
 f3 := y*z-x*w;
-
 
 bound3 := 22;
 
