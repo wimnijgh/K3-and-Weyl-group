@@ -19,7 +19,7 @@ repeat
     q2 := x*Random(LS1)+y*Random(LS1);
     q3 := Random(LS2)+Random(LS2);
     h := q1*f1+q2*f2+q3*f3;
-    X3 := Scheme(PR3,h);
+    X3 := Scheme(P3,h);
   until IsNonsingular(X3);
 
   assert L3 subset X3;
