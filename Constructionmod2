@@ -17,10 +17,10 @@ bound2 := 22;
 repeat
 
   repeat
-    pq1 := y*Random(LS1)+w*Random(LS1);
-    pq2 := y*Random(LS1)+w*Random(LS1);
-    pq3 := Random(LS2)+Random(LS2);
-    h := pq1*f1+pq2*f2+pq3*f3;
+    q1 := y*Random(LS1)+w*Random(LS1);
+    q2 := y*Random(LS1)+w*Random(LS1);
+    q3 := Random(LS2)+Random(LS2);
+    h := q1*f1+q2*f2+q3*f3;
     X2 := Scheme(P3,h);
   until IsNonsingular(X2);
 
@@ -55,7 +55,14 @@ list2;
 
 
 /* Example output:
+(N.b. this is a different output then the one used in the article)
+
+Defining polynomials q1,q2,q3 mod 2 are
+<x*y + y*z + x*w + w^2, x*w + z*w, x*y + y^2 + x*z + z*w + w^2>
+Number of Rational Points over F2 and extensions
+[ 9, 33, 105, 257, 1249, 4161, 17089, 65537, 264705 ]
 
 */
+
 
 
