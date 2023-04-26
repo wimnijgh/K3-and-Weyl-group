@@ -18,13 +18,13 @@ bound2 := 22;
 repeat
 
   repeat
-    pq1 := 2*Random(LS2)+y*Random(LS1)+w*Random(LS1);
-    pq2 := 3*w*Random(LS1)+y*Random(LS1);
+    pq1 := y*Random(LS1)+w*Random(LS1);
+    pq2 := w*Random(LS1)+y*Random(LS1);
     pq3 := Random(LS2)+Random(LS2);
     h := pq1*f1+pq2*f2+pq3*f3;
     X := Scheme(P3,h);
     X2 := Scheme(PR2,h);
-  until IsNonsingular(X2) and IsNonsingular(X);
+  until IsNonsingular(X2);
 
   assert L2 subset X2;
   
@@ -50,20 +50,24 @@ repeat
 
 until bound2 eq 4;
 
+"Defining polynomials q1,q2,q3 mod 2 are";
+<q1,q2,q3>;
+"Number of Rational Points over F2 and extensions";
+list2;
+
 bound3 := 22;
 
 repeat
   repeat
-    q1 := pq1+2*Random(LS2);
-    q2 := pq2+2*x*Random(LS1);
-    q3 := pq3+2*Random(LS2);
+    q1 := Random(LS2)+Random(LS2);
+    q2 := x*Random(LS1)+y*Random(LS1);
+    q3 := Random(LS2)+Random(LS2);
     h := q1*f1+q2*f2+q3*f3;
     X := Scheme(P3,h);
     X2 := Scheme(PR2,h);
     X3 := Scheme(PR3,h);
-  until IsNonsingular(X3) and IsNonsingular(X);
+  until IsNonsingular(X3);
 
-  assert L2 subset X2;
   assert L3 subset X3;
 
   list3:=[];
@@ -119,25 +123,14 @@ repeat
   end if;
 until bound3 eq 4;
 
-"Defining polynomials q1,q2,q3 are";
+"Defining polynomials q1,q2,q3 mod 3 are";
 <q1,q2,q3>;
-"Number of Rational Points over F2 and extensions";
-list2;
 "Number of Rational Points over F3 and extensions";
 list3;
 
 
-/* output:
+/* Example output:
 
-Defining polynomials q1,q2,q3 are
-<3*x*y + y^2 + 2*x*z + 2*y*z + x*w + 3*y*w, -2*x^2 + x*y + y*z + 6*z^2 + 2*x*w +
-    7*y*w + 9*z*w, 2*x*y + 3*y^2 + x*z + z^2 + x*w + 2*y*w + w^2>
-Number of Rational Points over F2 and extensions
-[ 9, 33, 105, 257, 1249, 4161, 17089, 65537, 264705 ]
-Number of Rational Points over F3 and extensions
-[ 21, 95, 819, 6983, 59406, 534179, 4804401, 43025999, 387536184 ]
-
-Total time: 128853.009 seconds, Total memory usage: 2742.69MB
 */
 
 
