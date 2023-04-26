@@ -3,7 +3,7 @@ Q := Rationals();
 R<t>:=PolynomialRing(Q);
 
 P3<x,y,z,w> := ProjectiveSpace(GF(2),3);
-L2 := Scheme(P3,[x,y]);
+L2 := Scheme(P3,[y,w]);
 
 LS2 := LinearSystem(P3,2);
 LS1 := LinearSystem(P3,1);
@@ -18,11 +18,10 @@ repeat
 
   repeat
     pq1 := y*Random(LS1)+w*Random(LS1);
-    pq2 := w*Random(LS1)+y*Random(LS1);
+    pq2 := y*Random(LS1)+w*Random(LS1);
     pq3 := Random(LS2)+Random(LS2);
     h := pq1*f1+pq2*f2+pq3*f3;
-    X := Scheme(P3,h);
-    X2 := Scheme(PR2,h);
+    X2 := Scheme(P3,h);
   until IsNonsingular(X2);
 
   assert L2 subset X2;
