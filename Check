@@ -1,6 +1,9 @@
-// Here we double check the properties of the
-// example we found in Construction
-
+/*  
+Here we double check the properties of the example 
+we found in Construction
+Note that in contrary to the article we lifted 
+the surface and check the properties of this surface
+*/
 
 Q := Rationals();                   
 P3<x,y,z,w> := ProjectiveSpace(Q,3);
@@ -10,9 +13,9 @@ f1 := x^2-x*y+6*y^2;
 f2 := z^2-z*w+6*w^2;
 f3 := y*z-x*w;
 
-q1 := 3*x*y + y^2 + 2*x*z + 2*y*z + x*w + 3*y*w;
-q2 := -2*x^2 + x*y + y*z + 6*z^2 + 2*x*w + y*w + 3*z*w;
-q3 := 2*x*y + 3*y^2 + x*z + z^2 + x*w + 2*y*w + w^2;
+q1 := y^2 + x*w  + 3*x*y + 3*y*w+ 2*x*z + 2*y*z;
+q2 := x*y + y*z + y*w + 3*z*w + 4*x^2 + 2*x*w;
+q3 := x*z + x*w + z^2 + w^2 + 3*y^2 + 2*x*y + 2*y*w;
 
 h := q1*f1 + q2*f2 + q3*f3;
 
@@ -89,6 +92,7 @@ end for;
 // This is faster then the naive point counting for these bigger order fields
 // One can also check this by adjusting the above function from [1..9], 
 // but this naive point counting will take more time and uses more memory.
+// This still takes a lot of time: ±20 minutes
 
 for k in [6..9] do 
   Fq := GF(3^k);
@@ -161,4 +165,27 @@ for i in [2..60] do
     assert Evaluate(wp3t,z) ne 0;
   end if;
 end for;
+
+
+/* Output:
+
+Factorization of the Weilpolynomial over F2 equals
+[
+    <t - 1, 4>,
+    <t^18 + 2*t^17 + 2*t^16 + t^15 + t^14 + t^13 + t^12 + 1/2*t^11 + t^10 + t^9 + t^8 +
+        1/2*t^7 + t^6 + t^5 + t^4 + t^3 + 2*t^2 + 2*t + 1, 1>
+]
+Geometric Picard number over F2 equals
+4
+Factorization of the Weilpolynomial over F3 equals
+[
+    <t - 1, 4>,
+    <
+        , 1>
+]
+Geometric Picard number over F3 equals
+4
+
+*/
+
 
