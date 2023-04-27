@@ -81,3 +81,4 @@ until bound3 eq 4;
 <q1,q2,q3>;
 "Number of Rational Points over F3 and extensions";
 list3;
+
