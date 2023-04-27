@@ -2,6 +2,8 @@
 Here we double the properties of the example we found.
 Note that in contrary to the article we lifted 
 to a surface and check the properties of this surface.
+The calculations of the reductions are of course the
+same for any such surface.
 */
 
 Q := Rationals();                   
@@ -28,7 +30,8 @@ X;
 "with two conjugate lines on this surface given by";
 C;
 
-// Calculate Picard number over F2:
+// Calculate Picard number over F2,
+// start by defining the reduction:
 P3F2 := ProjectiveSpace(GF(2),3);
 X2:=Scheme(P3F2,h); 
 assert IsNonsingular(X2);
@@ -94,7 +97,7 @@ end for;
 // This is faster then the naive point counting for these bigger order fields
 // One can also check this by adjusting the above function from [1..9], 
 // but this naive point counting will take more time and uses more memory.
-// This still takes a lot of time: ±1h
+// This still takes a lot of time: ±30m
 
 for k in [6..9] do 
   Fq := GF(3^k);
@@ -175,11 +178,13 @@ end for;
 
 
 /* Output:
+
+Surface is given by
 Scheme over Rational Field defined by
-3*x^3*y - 2*x^2*y^2 + 17*x*y^3 + 6*y^4 + 2*x^3*z + 12*x*y^2*z + 15*y^3*z - 2*x^2*z^2 + 
-    2*x*y*z^2 + 2*y*z^3 + x^3*w + 18*y^3*w + x^2*z*w + 2*y^2*z*w + x*z^2*w + 3*z^3*w - 
-    13*x^2*w^2 + 4*x*y*w^2 - 2*x*z*w^2 + 6*y*z*w^2 - 3*z^2*w^2 + 11*x*w^3 + 6*y*w^3 + 
-    18*z*w^3
+3*x^3*y - 2*x^2*y^2 + 17*x*y^3 + 6*y^4 + 2*x^3*z + 12*x*y^2*z + 15*y^3*z + 
+    4*x^2*z^2 + 2*x*y*z^2 + 2*y*z^3 + x^3*w + 18*y^3*w - 5*x^2*z*w + 2*y^2*z*w +
+    x*z^2*w + 3*z^3*w + 23*x^2*w^2 + 4*x*y*w^2 - 2*x*z*w^2 + 6*y*z*w^2 - 
+    3*z^2*w^2 + 11*x*w^3 + 6*y*w^3 + 18*z*w^3
 with two conjugate lines on this surface given by
 Scheme over Rational Field defined by
 x^2 - x*y + 6*y^2,
